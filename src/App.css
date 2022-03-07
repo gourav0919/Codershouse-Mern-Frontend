@@ -1,38 +1,37 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* I do this because it can set it for all of the elements */
+  /* font-size: 16px;
+  font-weight: normal; */
+  -webkit-font-smoothing: antialiased;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1 {
+  font-size: 16px;
+  font-weight: normal;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+ol,
+ul {
+  list-style: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+img {
+  max-width: 100%;
+  height: auto;
 }
 
-.App-link {
-  color: #61dafb;
+body {
+  font-family: "Nunito", sans-serif;
+  background-color: #121212;
+  color: #ffffff;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.container {
+  width: 1200px;
+  max-width: 90%;
+  /* This is for doing the horizontal center the container */
+  margin: 0 auto;
 }

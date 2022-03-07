@@ -1,0 +1,36 @@
+.cardWrapper {
+  width: 550px;
+  max-width: 90%;
+  min-height: 350px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.description {
+  line-height: 1.6;
+  font-weight: 400;
+  color: #c4c5c5;
+  margin-top: 20px;
+  font-size: 22px;
+}
+
+.getUsernameWrapper {
+  margin-top: 40px;
+}
+
+.linksWrapper {
+  margin-top: 20px;
+}
+
+.inviteText {
+  color: #0077ff;
+}
+/* 
+.signIn {
+  font-weight: bold;
+  text-decoration: none;
+  margin-left: 10px;
+  color: #0077ff;
+} */

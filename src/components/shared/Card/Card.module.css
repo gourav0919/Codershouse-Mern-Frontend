@@ -1,0 +1,24 @@
+.card {
+  background: #1d1d1d;
+  padding: 40px 50px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.headingWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headingLogo {
+  width: 30px;
+  height: 30px;
+}
+
+.headingText {
+  font-weight: 700;
+  margin-left: 10px;
+  line-height: 30px;
+  font-size: 22px;
+}

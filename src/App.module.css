@@ -1,0 +1,9 @@
+.cardWrapper {
+  width: 550px;
+  max-width: 90%;
+  min-height: 350px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -2,13 +2,21 @@
   background: #1d1d1d;
   padding: 40px 50px;
   border-radius: 15px;
-  text-align: center;
+  /* text-align: center; */
+
+  /* This will work in place of text align center */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .headingWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  margin-bottom: 30px;
 }
 
 .headingLogo {

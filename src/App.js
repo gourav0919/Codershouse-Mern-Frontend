@@ -7,8 +7,11 @@ import Navigation from "./components/shared/Navigation/Navigation";
 import Authenticate from "./pages/Authenticate/Authenticate";
 import Activate from "./pages/Activate/Activate";
 import Rooms from "./pages/Rooms/Rooms";
+import { useSelector } from "react-redux";
 
 // This is for the testing Purposes only.
+// now we are getting some neccessary variables from the redux store
+
 const isAuth = false;
 // const isAuth = true;
 const user = {
@@ -72,11 +75,13 @@ function App() {
 // this saves us from the unprotected user access.
 // In this route we redirected user directly to the rooms if the user is authenticated and then in the rooms section we check it for the user activation if the user is not activated then we redirect it to activation first.
 const GuestRoute = ({ children }) => {
+  const { isAuth } = useSelector((state) => state.auth);
   return !isAuth ? children : <Navigate to="/rooms" />;
 };
 
 // SemiProtected Route
 const SemiProtectedRoute = ({ children }) => {
+  const { isAuth, user } = useSelector((state) => state.auth);
   // here we check if user is not authenticated then send it to home or / route
   // if user is authenticated but the user is not activated then show him the activate route
   // else if user is authenticated and user is activated then redirect it to rooms route
@@ -91,6 +96,7 @@ const SemiProtectedRoute = ({ children }) => {
 
 // SemiProtected Route
 const ProtectedRoute = ({ children }) => {
+  const { isAuth, user } = useSelector((state) => state.auth);
   // here we check if user is not authenticated then send it to home or / route
   // if user is authenticated but the user is not activated then show him the activate route
   // else if user is authenticated and user is activated then redirect it to the children route for which it wants to access.

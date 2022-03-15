@@ -2,8 +2,8 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
-  //   baseURL: "http://localhost:5500",
-  //   withCredentials: true,
+  withCredentials: true,
+  // now our cors issue comes again so i have to add a new field in the cors option in the backend with the name of credentials to true
   headers: {
     "content-type": "application/json",
     Accept: "application/json",
@@ -19,6 +19,11 @@ export const sendOtp = (data) => {
 // The data in verifyOtp request contain the phone, otp and hash
 export const verifyOtp = (data) => {
   return api.post("/api/verify-otp", data);
+};
+
+// now our data contains the name and the base64 string of user Avatar image
+export const activateUser = (data) => {
+  return api.post("/api/activate", data);
 };
 
 export default api;

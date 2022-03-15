@@ -1,8 +1,10 @@
 .card {
   background: #1d1d1d;
-  padding: 40px 50px;
+  padding: 40px 70px;
   border-radius: 15px;
   /* text-align: center; */
+
+  width: 550px;
 
   /* This will work in place of text align center */
   display: flex;

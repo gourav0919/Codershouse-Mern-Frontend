@@ -23,16 +23,19 @@ const StepOtp = ({ onNext }) => {
             // After this step it stops working if the otp is incorrect
 
             // If invalid then the server is going to be shutdown so we will have to do something to stop shutting the server 
+            // i write this data because axios sent us the data object key which contains the response come from the server 
             const { data } = await verifyOtp({ otp, phone: dataFromStore.phone, hash: dataFromStore.hash });
 
             // Even if invalid otp then did not run this line
             // console.log(data);
+            // console.log(data.success);
+            // console.log(data.user);
 
             dispatch(setAuth(data));
             // onNext(); // now due to frontend semiprotected or protected routes we did not need this 
 
             // now we have to store the user in the redux store 
-            console.log(data);
+            // console.log(data);
         } catch (error) {
             console.log(error);
         }
@@ -44,7 +47,7 @@ const StepOtp = ({ onNext }) => {
     }
     return (
         <>
-            <div className={styles.cardWrapper}>
+            <div className="cardWrapper">
                 <Card title="Enter the code we just texted you" icon="lock">
                     <TextInput size="15" value={otp} onChange={(e) => setOtp(e.target.value)} />
                     <div>

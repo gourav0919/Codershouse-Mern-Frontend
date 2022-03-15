@@ -15,7 +15,7 @@ const Home = () => {
     }
 
     return (
-        <div className={`${styles.cardWrapper}`}>
+        <div className="cardWrapper">
             <Card title="Welcome to Codershouse!" icon="logo">
                 <p className={`${styles.description}`}>We’re working hard to get Codershouse ready for everyone! While we wrap up the finishing youches, we’re adding people gradually to make sure nothing breaks :)</p>
 

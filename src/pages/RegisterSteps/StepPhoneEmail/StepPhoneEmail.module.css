@@ -1,14 +1,10 @@
-.cardWrapper {
-  /* In this way we can remove duplicacy of the css */
-  composes: cardWrapper from "../../../App.module.css";
-}
-
 .changeInformationButtons {
   display: flex;
   justify-content: flex-end;
   align-items: center;
 
   margin-bottom: 15px;
+  /* width: 200px; */
 }
 
 .tabButtons {

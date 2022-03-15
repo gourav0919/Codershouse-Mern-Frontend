@@ -16,7 +16,8 @@ const StepPhoneEmail = ({ onNext }) => {
 
     return (
         <>
-            <div className={styles.cardWrapper}>
+            <div className="cardWrapper">
+                <div>
                 <div className={styles.changeInformationButtons}>
                     {/* This buttons is used for change in the information style */}
                     <button className={`${styles.tabButtons} ${informationType === 'phone' ? styles.active : ''}`} onClick={() => setInformationType('phone')}>
@@ -28,6 +29,7 @@ const StepPhoneEmail = ({ onNext }) => {
                 </div>
                 {/* onNext is the function which can be used to go to the next page of the authentication process */}
                 <InformationTypePage onNext={onNext} />
+                </div>
             </div>
         </>
     )

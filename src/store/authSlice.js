@@ -39,6 +39,6 @@ export const authSlice = createSlice({
 
 // in redux toolkit the actions are generally reducers
 // now we are exporting so that we can get this in our application where we wanted
-export const { setAuth, setOtpKey } = authSlice.actions;
+export const { setAuth, setOtpKey, setUserAsActivated } = authSlice.actions;
 
 export default authSlice.reducer;

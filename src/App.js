@@ -2,23 +2,15 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Navigation from "./components/shared/Navigation/Navigation";
-// import Register from "./pages/Register/Register";
-// import Login from "./pages/Login/Login";
 import Authenticate from "./pages/Authenticate/Authenticate";
 import Activate from "./pages/Activate/Activate";
 import Rooms from "./pages/Rooms/Rooms";
 import { useSelector } from "react-redux";
 
-// This is for the testing Purposes only.
-// now we are getting some neccessary variables from the redux store
-
-const isAuth = false;
+// making react redux some global variables for only development purposes
 // const isAuth = true;
-const user = {
-  activated: true,
-};
 // const user = {
-//   activated: true,
+//   activated: false,
 // };
 
 function App() {

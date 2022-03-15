@@ -1,7 +1,3 @@
-.cardWrapper {
-  composes: cardWrapper from "../../../App.module.css";
-}
-
 .actionButtonWrap {
   composes: actionButtonWrap from "../StepPhoneEmail/StepPhoneEmail.module.css";
 }

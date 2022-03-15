@@ -35,3 +35,13 @@ body {
   /* This is for doing the horizontal center the container */
   margin: 0 auto;
 }
+
+.cardWrapper {
+  width: 550px;
+  max-width: 90%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 18vh);
+}

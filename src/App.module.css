@@ -6,4 +6,9 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+
+  /* min-height: calc(100vh - 18vh); */
 }

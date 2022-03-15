@@ -13,7 +13,7 @@ const Phone = ({ onNext }) => {
     async function onNextBtnClick() {
         // we know that it return a object which have a key name as data which contain the data that is returned as the response
         const { data } = await sendOtp({ phone: phoneNumber });
-        console.log(data);
+        console.log(data); // This is for the testing purposes 
         dispatch(setOtpKey({ phone: data.phone, hash: data.hash }));
 
         // before calling onnext we have to do the several works like sending the otp

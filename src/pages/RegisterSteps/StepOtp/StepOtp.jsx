@@ -16,6 +16,11 @@ const StepOtp = ({ onNext }) => {
     const dispatch = useDispatch();
 
     const onNextBtnClick = async () => {
+        const { phone, hash } = dataFromStore;
+
+        // This is the basic validation we can add some more validation like making showing to user an alert why the next page is not loaded like fill all of the fields and more 
+        if (!otp || !phone || !hash) return;
+
         // This data is that data which is received as a response from the verify otp request
         // we get phone and hash from the redux store and otp from the input fields for which we have state
         try {
@@ -24,7 +29,7 @@ const StepOtp = ({ onNext }) => {
 
             // If invalid then the server is going to be shutdown so we will have to do something to stop shutting the server 
             // i write this data because axios sent us the data object key which contains the response come from the server 
-            const { data } = await verifyOtp({ otp, phone: dataFromStore.phone, hash: dataFromStore.hash });
+            const { data } = await verifyOtp({ otp, phone, hash });
 
             // Even if invalid otp then did not run this line
             // console.log(data);

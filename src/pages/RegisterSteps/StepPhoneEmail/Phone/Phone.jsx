@@ -11,6 +11,10 @@ const Phone = ({ onNext }) => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const dispatch = useDispatch();
     async function onNextBtnClick() {
+
+        // This is the basic validation we can add some more validation like making showing to user an alert why the next page is not loaded like fill all of the fields and more 
+        if (!phoneNumber) return;
+
         // we know that it return a object which have a key name as data which contain the data that is returned as the response
         const { data } = await sendOtp({ phone: phoneNumber });
         console.log(data); // This is for the testing purposes 

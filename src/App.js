@@ -6,6 +6,8 @@ import Authenticate from "./pages/Authenticate/Authenticate";
 import Activate from "./pages/Activate/Activate";
 import Rooms from "./pages/Rooms/Rooms";
 import { useSelector } from "react-redux";
+import { useLoadingWithRefresh } from "./hooks/useLoadingWithRefresh";
+import Loader from "./components/shared/Loader/Loader";
 
 // making react redux some global variables for only development purposes
 // const isAuth = true;
@@ -14,7 +16,14 @@ import { useSelector } from "react-redux";
 // };
 
 function App() {
-  return (
+  // the size of the file is increasing so now we are going to use the custom hooks of react made it and use it
+  // call refresh endpoint or known as the auto login
+  const { loading } = useLoadingWithRefresh();
+  // const loading = true; // This is for only loader testing
+
+  return loading ? (
+    <Loader message="Loading , please wait...." />
+  ) : (
     <BrowserRouter>
       <Navigation />
       <Routes>

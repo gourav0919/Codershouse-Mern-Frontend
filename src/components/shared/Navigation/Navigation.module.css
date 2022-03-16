@@ -1,4 +1,8 @@
 .navbar {
   padding: calc((12vh - 30px) / 2) 0;
   height: 12vh;
+  /* default flex is row  */
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
 }

@@ -26,6 +26,45 @@ export const activateUser = (data) => {
   return api.post("/api/activate", data);
 };
 
+// making Axios function to make request for the logout user
+export const logoutUser = () => {
+  // post request is some more secure
+  return api.post("api/logout");
+};
+
+// Interceptors :- They sit between in every request and respone of the frontend request
+// If our application is giving with 401 code which states that our accesstoken is expires so we are now going to hit the refresh endpoint and then again going to hit the same endpoint which gives us this error
+
+// If the response is outside the 2xx codes then 2nd callback function or error callback function will run
+// before sending response to the user we come back to this interceptor for every request
+api.interceptors.response.use(
+  (config) => {
+    return config;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+    if (
+      error.response.status === 401 &&
+      originalRequest &&
+      !originalRequest._isRetry
+    ) {
+      // we make it true so that it states that your refresh token is invalid
+      originalRequest._isRetry = true;
+      try {
+        await axios.get(`${process.env.REACT_APP_API_URL}/api/refresh`, {
+          withCredentials: true,
+        });
+
+        return api.request(originalRequest);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+
+    throw error;
+  }
+);
+
 export default api;
 
 // A error can come with saying that cors not accessible something this is a standard error so add cors in the backend or use proxy in the frontend whatever  of your choice
@@ -34,3 +73,7 @@ export default api;
 // one more error of can't set headers is coming because i did not return from the function i simply write the res.send or res.json which is wrong so use the return res.json or return res.send
 
 // .env file written also did not work out so i have to restart my react APP
+
+// now when our access token expires a new access token is generated with help  of refresh token
+
+// now on the page refresh we are generating new tokens both access and refresh which increased the security and this is known as refresh token rotation so the work will be done in the app.js because it is responsibe for the rendering of all of the components

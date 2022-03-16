@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setAvatarKeyRedux } from '../../../store/activateSlice';
 import { activateUser } from '../../../http';
 import { setAuth } from '../../../store/authSlice';
+import Loader from '../../../components/shared/Loader/Loader';
 
 const StepAvatar = ({ onNext }) => {
     const { fullName, avatar } = useSelector((state) => state.activate);
@@ -15,15 +16,28 @@ const StepAvatar = ({ onNext }) => {
 
     const [image, setImage] = useState('/images/avatar-default.png');
 
+    // making a state for sendingActivationData
+    const [sendingActivationData, setSendingActivationData] = useState(false);
+
 
     const onNextBtnClick = async () => {
-        console.log("Now you have to perform the server query for adding theh name and avatar of the user in the database.");
+
+        // Basic Validation 
+        if (!fullName || !avatar) return;
+
+        // console.log("Now you have to perform the server query for adding theh name and avatar of the user in the database.");  // done
         // now we have to redirect directly to the rooms page so for doing this we have to set in the redux store the user is activated so it automaticlly redirect it to room page 
 
         // here we have to call the activate user route and set in the database the user as the activated true and the auth slice of the redux store which containt the activate field set it to true also.
+
+        // now here we are starting our request so we have to start the loader here 
+        setSendingActivationData(true);
+
         try {
             // data is the key which contains the response coming from axios requests 
             const { data } = await activateUser({ name: fullName, avatar });
+
+            // This below code only runs if we receive success true which means that user is successfully activated 
             const { success, user } = data;
 
             if (success) {
@@ -32,6 +46,9 @@ const StepAvatar = ({ onNext }) => {
             }
         } catch (error) {
             console.log(error);
+        } finally {
+            // here after setting the response to the redux store now we can easily exit the loader or showing the original which is shown by the routes itself or if we get the error then also setting it to false 
+            setSendingActivationData(false);
         }
     }
 
@@ -53,6 +70,11 @@ const StepAvatar = ({ onNext }) => {
                 dispatch(setAvatarKeyRedux(reader.result));
             };
         }
+    }
+
+    // now we have to do the conditional rendering 
+    if (sendingActivationData) {
+        return (<Loader message="Activation in progress... " />);
     }
 
     return (

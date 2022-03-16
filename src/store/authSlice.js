@@ -22,7 +22,13 @@ export const authSlice = createSlice({
       const { user } = action.payload;
       // console.log(action.payload); // in invalid otp then did not come to this
       state.user = user;
-      state.isAuth = true;
+
+      // if we logout the user then setting the redux store isAuth key to false so it can redirect user to directly home page
+      if (user === null) {
+        state.isAuth = false;
+      } else {
+        state.isAuth = true;
+      }
     },
     setOtpKey: (state, action) => {
       // work here for change in the Otp object of the state
@@ -39,6 +45,6 @@ export const authSlice = createSlice({
 
 // in redux toolkit the actions are generally reducers
 // now we are exporting so that we can get this in our application where we wanted
-export const { setAuth, setOtpKey, setUserAsActivated } = authSlice.actions;
+export const { setAuth, setOtpKey } = authSlice.actions;
 
 export default authSlice.reducer;

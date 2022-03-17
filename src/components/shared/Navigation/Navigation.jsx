@@ -47,7 +47,7 @@ const Navigation = () => {
     }
 
     // Taking the isAuth field from the redux store auth slice 
-    const authentication = useSelector((state) => state.auth.isAuth);
+    const { isAuth, user } = useSelector((state) => state.auth);
 
     // we did not need this because we use the concept of short circuit 
     // making the logout button function which will respond according the isAuth key of the react redux auth slice store 
@@ -72,9 +72,24 @@ const Navigation = () => {
                 <span style={logoText}>Codershouse</span>
             </Link>
 
-            {/* // even of making the function we can use the concept of short circuit  */}
-            {authentication && <button onClick={logoutBtnClick}>Logout</button>}
-            {/* <button onClick={logoutBtnClick} style={logoutButtonShow()}>Logout</button> */}
+            <div className={styles.navRight}>
+                {/* This removes the null warning of the user */}
+                {user && user.activated && <h3 className={styles.userNameTextNavigation}>{user.name}</h3>}
+                {user && user.activated && <Link to="/" className={styles.userAvatarNavigationWrapper}>
+                    <img src={user.avatar} className={styles.userAvatarNavigation} alt="user avatar" />
+                </Link>}
+
+                {/* you can add a tooltip in the logout button so that user can easily understand and also can add a modal on clicking logout */}
+                {isAuth && <button onClick={logoutBtnClick} className={styles.logoutBtn}>
+                    <img className={styles.logoutSymbol} src="/images/logout-symbol.png" alt="logout-symbol" />
+                </button>}
+
+                {/* // even of making the function we can use the concept of short circuit  */}
+                {/* {isAuth && <button onClick={logoutBtnClick} className={styles.logoutBtn}>Logout</button>} */}
+                {/* <button onClick={logoutBtnClick} style={logoutButtonShow()}>Logout</button> */}
+            </div>
+
+
         </nav>
     )
 }

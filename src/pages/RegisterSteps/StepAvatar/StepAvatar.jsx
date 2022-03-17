@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './StepAvatar.module.css';
 import Card from '../../../components/shared/Card/Card';
 import Button from '../../../components/shared/Button/Button';
@@ -18,6 +18,9 @@ const StepAvatar = ({ onNext }) => {
 
     // making a state for sendingActivationData
     const [sendingActivationData, setSendingActivationData] = useState(false);
+
+    // creating a state for mounting for removing the warning which is neccessary 
+    const [mounted, setMounted] = useState(true);
 
 
     const onNextBtnClick = async () => {
@@ -42,7 +45,11 @@ const StepAvatar = ({ onNext }) => {
 
             if (success) {
                 // now setting the user as activated in the redux store 
-                dispatch(setAuth({ user }));
+                // if the component is mounted then only set the redux store else not 
+                if (mounted) {
+                    dispatch(setAuth({ user })); // This is the asynchronous work so a warning can be displayed on relating to asynchronous works which you can remove by creating an useEffect cleaner function and then calling this dispatch if and only this component is mounted not any other
+                    // so for doing this we are going to create a state for the unmounted component and then set true it on cleanup
+                }
             }
         } catch (error) {
             console.log(error);
@@ -51,6 +58,14 @@ const StepAvatar = ({ onNext }) => {
             setSendingActivationData(false);
         }
     }
+
+    // now the warning goes 
+    useEffect(() => {
+        return () => {
+            setMounted(false);
+        }
+    }, []);
+
 
     // This will give us an event which have some properties we have to go to the target which have an array of object in the files field
     const captureImage = (e) => {

@@ -23,6 +23,15 @@ img {
   height: auto;
 }
 
+button {
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-family: "Nunito", sans-serif;
+  cursor: pointer;
+  font-weight: bold;
+}
+
 body {
   font-family: "Nunito", sans-serif;
   background-color: #121212;

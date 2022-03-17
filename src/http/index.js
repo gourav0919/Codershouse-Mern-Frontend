@@ -2,6 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
+  // now other domain can set cookies to this domain
   withCredentials: true,
   // now our cors issue comes again so i have to add a new field in the cors option in the backend with the name of credentials to true
   headers: {

@@ -1,6 +1,6 @@
-.cardWrapper {
+/* .cardWrapper {
   composes: cardWrapper from "../../App.module.css";
-}
+} */
 
 .description {
   line-height: 1.6;

@@ -1,10 +1,12 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
+// This is the navbar
 import Navigation from "./components/shared/Navigation/Navigation";
 import Authenticate from "./pages/Authenticate/Authenticate";
 import Activate from "./pages/Activate/Activate";
 import Rooms from "./pages/Rooms/Rooms";
+import Room from "./pages/Room/Room";
 import { useSelector } from "react-redux";
 import { useLoadingWithRefresh } from "./hooks/useLoadingWithRefresh";
 import Loader from "./components/shared/Loader/Loader";
@@ -61,6 +63,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Rooms />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          // now this roomId is going to add in the useParams() object so we can easily be able to do object destructuring
+          // This is afterwards colon is known as the dynamic parameter
+          path="/room/:roomId"
+          element={
+            <ProtectedRoute>
+              <Room />
             </ProtectedRoute>
           }
         />

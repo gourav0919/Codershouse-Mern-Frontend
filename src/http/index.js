@@ -33,6 +33,17 @@ export const logoutUser = () => {
   return api.post("api/logout");
 };
 
+export const createRoom = (data) => {
+  // obviously post request
+  // we make the post request so it means we are going to create the room if we do get request on this url then it means we are going to get the all of the list of the rooms
+  return api.post("api/rooms", data);
+};
+
+export const getAllPublicRooms = () => {
+  // now we are using the same url which we used while creating the room but this time we are making get request not the post request
+  return api.get("api/rooms");
+};
+
 // Interceptors :- They sit between in every request and respone of the frontend request
 // If our application is giving with 401 code which states that our accesstoken is expires so we are now going to hit the refresh endpoint and then again going to hit the same endpoint which gives us this error
 

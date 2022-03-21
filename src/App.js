@@ -122,4 +122,6 @@ const ProtectedRoute = ({ children }) => {
   );
 };
 
+// for handling any of the route we just have to make a unidentified route area which we can use if any of the above component can not satisfy in this way we can easily remove that error that is coming when i go to a route that did not exist and then when i logout from that route so no one state run that's why it is never coming back to the home or / url
+
 export default App;

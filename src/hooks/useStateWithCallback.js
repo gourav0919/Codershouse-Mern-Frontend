@@ -27,6 +27,7 @@ export const useStateWithCallback = (initialState) => {
     });
   }, []);
 
+  // Mainly the work done is here when the state is update it means this is going to run definitely and in this now we are calling the callback function which we receive as a arguement from the setClient and store it in cbref and now is the time to call it
   useEffect(() => {
     //   now here after doing the state update calling that callback function via the reference by passing the new state to it
     // This is the main task that we have to achieve that is calling the callback which we are doing now

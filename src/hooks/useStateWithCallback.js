@@ -16,6 +16,7 @@ export const useStateWithCallback = (initialState) => {
   //   now if the newState arguement is the function then in the setState it is going to call with the previous value of state and if this is not the function then the setState will got the newState value simply
   //   so now we make the state change to use the functional approach which is good for state change due to asynchronous nature of react and it also helps us in getting our work done so we can add new clients easily without affecting the previous clients now you understand what i want to say
   //   We are providing empty dependency list but the reason i did not know
+  // We are providing empty dependency list which says that this function is memorised first and then it is not created everytime for every re render
   const updateState = useCallback((newState, callb) => {
     // Assigning callback function which we receive to a reference
     cbRef.current = callb;

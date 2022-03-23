@@ -15,6 +15,7 @@ const Room = () => {
     const { clients, provideRef } = useWebRTC(roomId, user);
 
     // now we are going to use this id to connect user with the web Socket and web RTC
+    // console.log(clients);
 
 
     return (
@@ -34,5 +35,7 @@ const Room = () => {
         </div>
     )
 }
+
+// Remember this firstly jsx will render and then the useEffect hook of useWebRTC will run
 
 export default Room

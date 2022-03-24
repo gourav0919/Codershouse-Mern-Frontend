@@ -44,6 +44,10 @@ export const useWebRTC = (roomId, user) => {
     [clients, setClients]
   );
 
+  // const removeClient = useCallback(()=>{
+
+  // })
+
   // useEffect with empty dependencies array run only one time just after the component render or known as the component did mount.
   useEffect(() => {
     socket.current = socketInit();
@@ -129,6 +133,8 @@ export const useWebRTC = (roomId, user) => {
         // Now this gives us the public ip from the free ice server
         iceServers: freeice(),
       });
+      console.log(connections.current[peerId]);
+      console.log(connections.current);
 
       // now adding the new ice candidate
       // ice candidate is going to happen when the information of local description is going to changed then it detect it
@@ -284,10 +290,26 @@ export const useWebRTC = (roomId, user) => {
   // If i reload then firstly remove peer chlna chaiye
   useEffect(() => {
     const handleRemovePeer = async (peerId, userId) => {
-      if (connections.current[peerId]) {
-        // This will close the connection
-        connections.current[peerId].close();
-      }
+      console.log("Inside Handle Remove Peer, PeerId :- ", peerId);
+      // peerId = peerId.toString();
+      // const socketIdIshere = peerId;
+
+      console.log(connections.current[peerId]);
+
+      console.log(connections.current);
+      // This also not running
+
+      // const { `${socketIdIshere}` } = connections.current;
+      // console.log(socketIdIshere);
+
+      // const value = connections.current[peerId].close();
+      // console.log(value);
+
+      // if (connections.current.valueOf(peerId)) {
+      //   console.log("Connection Close");
+      //   // This will close the connection
+      //   connections.current.valueOf(peerId).peerId.close();
+      // }
 
       // now delete the connection of object key
       delete connections.current[peerId];
@@ -296,6 +318,7 @@ export const useWebRTC = (roomId, user) => {
       console.log(clients);
 
       // remove from the setClients also
+      // await setClients(
       setClients(
         (list) => {
           return list.filter((client) => {

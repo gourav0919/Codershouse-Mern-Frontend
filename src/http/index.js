@@ -1,5 +1,7 @@
 import axios from "axios";
 
+// Axios API is used only for the backend request and to get the data or response from the backend
+
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   // now other domain can set cookies to this domain

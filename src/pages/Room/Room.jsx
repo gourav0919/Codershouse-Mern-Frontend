@@ -5,21 +5,26 @@ import { useWebRTC } from '../../hooks/useWebRTC'
 import { useSelector } from 'react-redux'
 
 const Room = () => {
+    console.log("Inside Room Component!");
+
     // useParams is also a hook from react-router-dom and we receive the room id which we give in the url
     const { roomId } = useParams();
     // destructuring the user from the auth slice of redux store
     const { user } = useSelector((state) => state.auth);
+
+    console.log("Before calling useWebRTC hook from Room Component.")
 
     // we know that the logic for the client is bit more so we can create a hook and store it there
     // whenever you feel the logic is going more and more then move the logic to the custom hook
     const { clients, provideRef } = useWebRTC(roomId, user);
 
     // now we are going to use this id to connect user with the web Socket and web RTC
-    // console.log(clients);
+    console.log(clients);
 
 
     return (
         <div>
+            {/* {console.log("Rendering Now!")} */}
             <h1>All Connected Clients.</h1>
             {
                 clients.map((client) => {

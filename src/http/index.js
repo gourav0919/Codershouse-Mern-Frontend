@@ -46,6 +46,13 @@ export const getAllPublicRooms = () => {
   return api.get("api/rooms");
 };
 
+// I am thinking why to make this getOneSingleRoom request to server else the response which we receive from the server while calling get all rooms we can use but we did not be able to use it because user can have private room also so the user have to get the information of private room also so we need a request which can do this.
+// I am thinking of passing roomId as the url for the get request as a keyword or we use ? or something in our ecommerce project let's see
+export const getSingleRoom = (roomId) => {
+  // here we are dynamically plugging the roomid which i think to do it
+  return api.get(`api/rooms/${roomId}`);
+};
+
 // Interceptors :- They sit between in every request and respone of the frontend request
 // If our application is giving with 401 code which states that our accesstoken is expires so we are now going to hit the refresh endpoint and then again going to hit the same endpoint which gives us this error
 

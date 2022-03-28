@@ -15,7 +15,7 @@ const Room = () => {
 
     // we know that the logic for the client is bit more so we can create a hook and store it there
     // whenever you feel the logic is going more and more then move the logic to the custom hook
-    const { clients, provideRef } = useWebRTC(roomId, user);
+    const { clients, provideRef, handleMute } = useWebRTC(roomId, user);
 
     // now we are going to use this id to connect user with the web Socket and web RTC
     const navigate = useNavigate();
@@ -36,6 +36,26 @@ const Room = () => {
 
         fetchRoom();
     }, [roomId]);
+
+    const [isMute, setIsMute] = useState(true);
+    // if isMute state change then this room component is going to be rendered again because of state change
+    // When the isMute dependency change then this useEffect will run every time we use it to send the request via the web socket to the client so that it stop the stream sending
+    useEffect(() => {
+        // we are making the functionality to mute or unmute ourself not anyone other
+        handleMute(isMute, user.id);
+        console.log(isMute);
+    }, [isMute]);
+
+    // Function for setting mute or unmute or updating the state from mute to unmute or unmute to mute 
+    const setMuteOrUnmute = (clientId) => {
+        // isMute ? setIsMute(false) : setIsMute(true);
+        // we have only permit user to do this work if he click on the his or ourself mic not on anyone other mic so for doing this we can simply add a if condition with the help of the clientId
+        if (user.id === clientId) {
+            setIsMute((mute) => !mute);
+        }
+    }
+
+    console.log(clients, isMute);
 
     return (
         <div>
@@ -73,10 +93,9 @@ const Room = () => {
                                             autoPlay
                                         ></audio>
                                         <img className={styles.userAvatar} src={client.avatar} alt="user avatar" />
-                                        <button className={styles.micBtn}>
+                                        <button className={styles.micBtn} onClick={() => setMuteOrUnmute(client.id)}>
                                             {/* This is for showing the mic on icon */}
-                                            {/* <img src="/images/mic.png" alt="mic icon" /> */}
-                                            <img src="/images/mic_off.png" alt="mic off icon" />
+                                            {client.muted ? <img src="/images/mic_off.png" alt="mic off icon" /> : <img src="/images/mic.png" alt="mic icon" />}
                                         </button>
                                     </div>
                                     <h4>{client.name}</h4>
@@ -93,4 +112,7 @@ const Room = () => {
 
 // Remember this firstly jsx will render and then the useEffect hook of useWebRTC will run
 
-export default Room
+export default Room;
+
+
+// one error discovered when you close the browser and it is last tab and you close that tab then remove peer event is not triggered

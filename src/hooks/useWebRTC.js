@@ -18,11 +18,50 @@ export const useWebRTC = (roomId, user) => {
   const connections = useRef({});
   const localMediaStream = useRef(null);
   const socket = useRef(null);
+  // This is we can say a copy of the client state which we can use if we have to detect anything in the dom or anything else
+  const clientsRef = useRef([]);
 
   console.log("After calling useStateWithCallback Hook in webRTC HOOK!");
 
   const provideRef = (instance, userId) => {
     audioElements.current[userId] = instance;
+  };
+
+  // we make audioElement reference with the userId in the provide ref
+  const handleMute = (isMute, userId) => {
+    console.log("handle Mute called");
+    // console.log("Mute : ", isMute);
+    // We have to do this if the localStream object exist.
+    // In my thinking we are getting localMediaStream everytime as much i do the debugging i found this.
+    // now our main challenge is to do the debugging of all of the useEffects and functions.
+    let settled = false;
+    let interval = setInterval(() => {
+      if (localMediaStream.current) {
+        // we are sending userId because by using this we can be able to access the local media stream
+        // enabled information :- https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/enabled
+        // enabled is used for doing the functionality of mute and unmute intensionally
+        // This is for muting the stream if the ismute is true then it means we have to mute so we the enabled is equal to false to mute it
+        // or if isMute is false then it means we have to set the stream to send the data or start sending the data so we set the enabled to true to start sending the data
+        localMediaStream.current.getTracks()[0].enabled = !isMute;
+
+        if (isMute) {
+          console.log("Mute Event Emitted from the client browser.");
+          // now send also to other clients that i muted so you have to update in your UI as well
+          // socket.emit() // so we did not have to send this via the socket. in the track there is a event called as onMute and onUnmute so we can use them but this is not working for some reasons
+          socket.current.emit(ACTIONS.MUTE, { roomId, userId });
+        } else {
+          console.log("UNMute Event Emitted from the client browser.");
+          socket.current.emit(ACTIONS.UNMUTE, { roomId, userId });
+        }
+
+        settled = true;
+      }
+
+      //
+      if (settled) {
+        clearInterval(interval);
+      }
+    }, 200);
   };
 
   // It has its client list but when the component re-renders then it will re-render also so in this case
@@ -69,7 +108,9 @@ export const useWebRTC = (roomId, user) => {
 
     // now we call the startCapture function which will start the capturing the audio and fill it in the localMediaStream reference
     startCapture().then(() => {
-      addNewClient(user, () => {
+      // This is we are doing only for the client side rendering purposes only until we did not set the stream for the mute
+      // When anyone is join a room we are going to keep that user by default mute because it looks quite good
+      addNewClient({ ...user, muted: true }, () => {
         const localElement = audioElements.current[user.id];
 
         if (localElement) {
@@ -114,7 +155,9 @@ export const useWebRTC = (roomId, user) => {
       };
 
       connections.current[peerId].ontrack = ({ streams: [remoteStream] }) => {
-        addNewClient(remoteUser, () => {
+        // addNewClient({ ...remoteUser }, () => {
+        // This is also implemented in the UI not in the actual stream
+        addNewClient({ ...remoteUser, muted: true }, () => {
           if (audioElements.current[remoteUser.id]) {
             audioElements.current[remoteUser.id].srcObject = remoteStream;
           } else {
@@ -244,7 +287,63 @@ export const useWebRTC = (roomId, user) => {
     };
   }, []);
 
-  return { clients, provideRef };
+  useEffect(() => {
+    // now here we are setting clientsReference to the updated clients.
+    console.log("clientsRef is set to clients value :- ", clients);
+    clientsRef.current = clients;
+  }, [clients]);
+
+  // listen for the mute or unmute event coming from the server
+  useEffect(() => {
+    // const setMute = (mute, userId) => {
+    //   // we did not be able to get clients here as we know you get in the debugging that you get an empty array
+    //   // so we have to do something
+    //   // now we are firstly going to get the clients and then change the client property of muted which match the userId and then do the setClients to set the new or actual clients.
+    //   // now we want state also and did not want to run it again and again
+    //   clients;
+
+    //   // so for overcome this issue we also store clients in the ref also so we did not have to provide the clients in the dependency
+    //   // if here we use setClients here then this clients useEffect will run so this is a problem
+    // };
+    const setMute = (mute, userId) => {
+      // now using the client Reference
+      // firstly we convert our clientsRef array to a array of ids and then we find the index of that user specified id
+      const clientIndex = clientsRef.current
+        .map((client) => client.id)
+        .indexOf(userId);
+      console.log(clientIndex);
+
+      // now we have the index so we know which user mic icon we have to change
+      // The problem of clicking one more time once time lies here
+      // We are directly passing the object so it is taking it by the reference i think this is the problem here althought ye problem nhi honi chaiye thi but ab ho gyi h to kuch to krna hi pdega solve krne k liye
+      // const connectedClients = clientsRef.current;
+      // so we have to copy it or clone it not just pass by the reference
+      // In this way we can copy or clone it first stringify it and then parse it
+      const connectedClients = JSON.parse(JSON.stringify(clientsRef.current));
+
+      // so we know that array index can be start from the 0
+      if (clientIndex > -1) {
+        // the mute property can be true or false
+        // we know that our ui is actually dependent in muted property
+        connectedClients[clientIndex].muted = mute;
+        // we have to set it to clients because it start the render again
+        setClients(connectedClients, () => {
+          console.log("Muted Clients set Successfully.");
+        });
+      }
+    };
+    socket.current.on(ACTIONS.MUTE, ({ peerId, userId }) => {
+      console.log("Mute Event Received for a specific user.");
+      setMute(true, userId);
+    });
+
+    socket.current.on(ACTIONS.UNMUTE, ({ peerId, userId }) => {
+      console.log("UNMute Event Received for a specific user.");
+      setMute(false, userId);
+    });
+  }, []);
+
+  return { clients, provideRef, handleMute };
 };
 
 // This is the code which i write with comments or alot of comments with the resource references the bigger one references is the mdn they have a signalling article which is good and gives the whole idea of how the working is to be done

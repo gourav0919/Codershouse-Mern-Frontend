@@ -21,13 +21,20 @@
 .micBtn {
   position: absolute;
   /* Now it is perfectly done */
-  bottom: 3px;
-  right: 3px;
+  /* bottom: 3px; */
+  /* right: 3px; */
+  right: 0;
+  bottom: 0;
   background-color: #212121;
   width: 30px;
   height: 30px;
   border-radius: 25px;
   padding: 6px;
+  cursor: auto;
+}
+
+.micBtn img {
+  height: 18px;
 }
 
 .goBackBtn {
